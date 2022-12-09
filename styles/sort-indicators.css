@@ -1,0 +1,44 @@
+/*
+ *   Sort indicator styling
+ *
+ * * * */
+
+
+/* Reserve space for sort indicators first, so columns won't change size after sorting occurs */
+th {
+	cursor: pointer;
+	padding-right: 2em;
+	position: relative;
+}
+	/* Create sort indicator as a psuedo-element, and hide it with opacity 0 so we can fade it in/out */
+	th::after,
+	th::after {
+		content: "\27A4";
+		opacity: 0;
+		position: absolute;
+		right: 0.5em;
+		transition-duration: 0.3s;
+		transition-property: transform, opacity;
+		transition-timing-function: ease-in-out;
+	}
+		/* Show and rotate sort indicator when the column header gets a sort direction attribute */
+		th[aria-sort=ascending]::after {
+			opacity: 0.3;
+			transform: rotate(-90deg);
+		}
+
+		th[aria-sort=descending]::after {
+			opacity: 0.3;
+			transform: rotate(90deg);
+		}
+
+	/* remove reserved space for unsortable columns */
+	table[data-sortable=false] th,
+	th[data-sortable=false] {
+		cursor: initial;
+		padding-right: 1em;
+	}
+		table[data-sortable=false] th::after,
+		th[data-sortable=false]::after {
+			content: none;
+		}

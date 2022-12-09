@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sortable table rows javascript project</title>
+	<link rel="stylesheet" type="text/css" href="styles/demo-page.css">
+	<link rel="stylesheet" type="text/css" href="styles/sort-indicator.css">
+	<link rel="icon" href="images/logo.svg" type="image/svg+xml" />
+	<script type="text/javascript" src="tablesort.js" defer></script>
+</head>
+<body>
+
+<div class="text-container">
+	<h1>Sort HTML tables in real-time using JavaScript v1.0</h1>
+	<p>This is a simple script written as a plug-in, enabling page authors to make their HTML tables sortable without needing to know any JavaScript syntax.</p>
+	<p>By default any eligible table will be made sortable, without the page author having to add or change any special attributes on the table elements. Special attributes can be added in case the page author wants specific tables or columns to be unsortable.</p>
+	<p>A table is eligible if it has one or more "header rows": rows consisting purely of column headers (<code>&lt;th&gt;</code> elements).<br/>
+	The script will add button behaviour to these, for initiating sorting. The script will automatically update <code>aria-sort</code> attribute values of column headers, and this can be used as a CSS selector for styling sort indicators.</p>
+</div>
+
+<h2>Demo</h2>
+<div class="box">
+<table>
+	<caption>Characters from Genshin Impact. Source: <a href="https://genshin-impact.fandom.com/wiki/Character/List">Genshin Impact Wiki</a></caption>
+	<thead>
+		<tr>
+			<th>Portrait</th>
+			<th>Name</th>
+			<th>Health</th>
+			<th>Weapon</th>
+			<th>Nation</th>
+			<th>Birthday</th>
+			<th>Voice</th>
+			<th>Score</th>
+		</tr>
+	</thead>
+	<tbody id="tbody">
+		<tr>
+			<td class="table_portrait"><img alt="Amber portrait" src="images/amber.png" width="20" height="20" /></td>
+			<td class="table_name">Amber</td>
+			<td class="table_hp">793</td>
+			<td class="table_weapon"><img alt="Pyro symbol" src="images/element_pyro.svg" width="20" height="20" /> Bow</td>
+			<td class="table_nation">Mondstadt</td>
+			<td class="table_birthday">August 10</td>
+			<td>蔡书瑾</td>
+			<td class="table_score">&star;&star;&star;&star;&starf;</td>
+		</tr>
+		<tr>
+			<td class="table_portrait"><img alt="Xiangling portrait" src="images/xiangling.png" width="20" height="20" /></td>
+			<td class="table_name">Xiangling</td>
+			<td class="table_hp">911</td>
+			<td class="table_weapon"><img alt="Pyro symbol" src="images/element_pyro.svg" width="20" height="20" /> Polearm</td>
+			<td class="table_nation">Liyue</td>
+			<td class="table_birthday">November 2</td>
+			<td class="table_voice">小N</td>
+			<td class="table_score">&starf;&starf;&starf;&starf;&starf;</td>
+		</tr>
+		<tr>
+			<td class="table_portrait"><img alt="Sucrose portrait" src="images/sucrose.png" width="20" height="20" /></td>
+			<td class="table_name">Sucrose</td>
+			<td class="table_hp">775</td>
+			<td class="table_weapon"><img alt="Anemo symbol" src="images/element_anemo.svg" width="20" height="20" /> Catalyst</td>
+			<td class="table_nation">Mondstadt</td>
+			<td class="table_birthday">November 26</td>
+			<td class="table_voice">小敢</td>
+			<td class="table_score">&starf;&starf;&starf;&starf;&starf;</td>
+		</tr>
+		<tr>
+			<td class="table_portrait"><img alt="Sayu portrait" src="images/sayu.png" width="20" height="20" /></td>
+			<td class="table_name">Sayu</td>
+			<td class="table_hp">993</td>
+			<td class="table_weapon"><img alt="Anemo symbol" src="images/element_anemo.svg" width="20" height="20" /> Claymore</td>
+			<td class="table_nation">Inazuma</td>
+			<td class="table_birthday">October 19</td>
+			<td class="table_voice">Sakula小舞</td>
+			<td class="table_score">&star;&starf;&starf;&starf;&starf;</td>
+		</tr>
+		<tr>
+			<td class="table_portrait"><img alt="Dori portrait" src="images/dori.png" width="20" height="20" /></td>
+			<td class="table_name">Dori</td>
+			<td class="table_hp">1039</td>
+			<td class="table_weapon"><img alt="Electro symbol" src="images/element_electro.svg" width="20" height="20" /> Claymore</td>
+			<td class="table_nation">Sumeru</td>
+			<td class="table_birthday">December 21</td>
+			<td class="table_voice">王晓彤</td>
+			<td class="table_score">&star;&star;&star;&starf;&starf;</td>
+		</tr>
+		<tr>
+			<td class="table_portrait"><img alt="Barbara portrait" src="images/barbara.png" width="20" height="20" /></td>
+			<td class="table_name">Barbara</td>
+			<td class="table_hp">820</td>
+			<td class="table_weapon"><img alt="Hydro symbol" src="images/element_hydro.svg" width="20" height="20" /> Catalyst</td>
+			<td class="table_nation">Mondstadt</td>
+			<td class="table_birthday">July 5</td>
+			<td class="table_voice">宋媛媛</td>
+			<td class="table_score">&star;&star;&star;&starf;&starf;</td>
+		</tr>
+		<tr>
+			<td class="table_portrait"><img alt="Collei portrait" src="images/collei.png" width="20" height="20" /></td>
+			<td class="table_name">Collei</td>
+			<td class="table_hp">820</td>
+			<td class="table_weapon"><img alt="Dendro symbol" src="images/element_dendro.svg" width="20" height="20" /> Bow</td>
+			<td class="table_nation">Sumeru</td>
+			<td class="table_birthday">May 8</td>
+			<td class="table_voice">秦文静</td>
+			<td class="table_score">&star;&star;&star;&starf;&starf;</td>
+		</tr>
+		<tr>
+			<td class="table_portrait"><img alt="Yun Jin portrait" src="images/yunjin.png" width="20" height="20" /></td>
+			<td class="table_name">Yun Jin</td>
+			<td class="table_hp">893</td>
+			<td class="table_weapon"><img alt="Geo symbol" src="images/element_geo.svg" width="20" height="20" /> Polearm</td>
+			<td class="table_nation">Liyue</td>
+			<td class="table_birthday">May 21</td>
+			<td class="table_voice">贺文潇</td>
+			<td class="table_score">&star;&star;&starf;&starf;&starf;</td>
+		</tr>
+		<tr>
+			<td class="table_portrait"><img alt="Diona portrait" src="images/diona.png" width="20" height="20" /></td>
+			<td class="table_name">Diona</td>
+			<td class="table_hp">802</td>
+			<td class="table_weapon"><img alt="Cryo symbol" src="images/element_cryo.svg" width="20" height="20" /> Bow</td>
+			<td class="table_nation">Mondstadt</td>
+			<td class="table_birthday">January 18</td>
+			<td class="table_voice">诺亚</td>
+			<td class="table_score">&star;&starf;&starf;&starf;&starf;</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<p>The script will automatically try to recognize data types such as numbers and dates, but will otherwise just sort according to character order (e.g. alphabetical)</p>
+<ul>
+	<li><strong>Portrait</strong> cells in the have no text content so the sort will instead be based on the full HTML markup content of each cell. Depending on attribute order, this will usually result in rows getting sorted according to filename or <code>alt</code> text.</li>
+	<li><strong>Name</strong> cells are <code>&lt;th&gt;</code> elements, but they are treated as data cells whenever they share a row with <code>&lt;td&gt;</code> elements.</li>
+	<li><strong>Health</strong> cell values are automatically recognized as numbers instead of text. Note that Dori's HP is sorted as the highest value in spite of the first digit being the lowest. Expect the script to fail at identifying numbers that contain spaces, commas or units.</li>
+	<li><strong>Weapon</strong> cells contain a mix of image and text. Markup is ignored as long as a cell contains text, so here the images will not affect sort order.</li>
+	<li><strong>Nation</strong> is a simple text only column. Like all the other columns, sorting is always case-insensitive.</li>
+	<li><strong>Birthday</strong> cells are automatically recognized as a date and are sorted accordingly.</li>
+</ul>
+
+<h2>Code requirements:</h2>
+<ol>
+	<li>Rows consisting of only <code>&lt;th&gt;</code> elements should function as sort trigger.</li>
+	<li>Rows containing 1 or more <code>&lt;td&gt;</code> elements should be sortable.</li>
+	<li>When multiple tables exist, they should all be indvividually sortable.</li>
+	<li>Script should not require page author to adapt tables to fit script (as long as tables have valid markup).</li>
+	<li>Script should be easy for page author to understand and modify, especially for the purpose of translating to other languages.</li>
+	<li>Script should enable page author to add attributes to specific tables and columns to prevent sort behaviour.</li>
+	<li>Script should enable page author to add attributes for overriding the value collected from specific cells by the script.</li>
+	<li>Sort trigger should support using touchscreen, mouse and keyboard.</li>
+	<li>Sorting of rows should make sense for screen reader users.</li>
+	<li>Changes made to the page should be limited to: adding click events and accessibility attributes on column headers; changing order of data row elements.</li>
+	<li>The script should store as little data as possible in memory while idle.</li>
+	<li>When performing a sort, each row should only be moved once (for the sake of performance).</li>
+	<li>When script fails, all table data should still be displayed, and no indicators of sorting functionality should be shown (see <a href="https://en.wikipedia.org/wiki/Unobtrusive_JavaScript">https://en.wikipedia.org/wiki/Unobtrusive_JavaScript</a> ).</li>
+</ol>
+
+<h2>Custom data-attributes:</h2>
+<ul>
+	<li><code>data-sortvalue="x"</code> (replace <code>x</code> with whichever value you want) can be added to <code>&lt;td&gt;</code> elements to override the cell's content for sorting. For example: if the script thinks "100kg" is lighter than "20g", you can use <code>&lt;td data-sortvalue="100000"&gt;100kg&lt;/td&gt;</code> and <code>&lt;td data-sortvalue="20"&gt;20g&lt;/td&gt;</code> instead, and the script will sort by the attribute values.</li>
+	<li><code>data-sortable="false"</code> can be added to <code>&lt;table&gt;</code> and <code>&lt;th&gt;</code> elements to prevent tables and columns from being sortable.</li>
+</ul>
+
+<h2>Known issues</h2>
+<ol>
+	<li>Script will fail if loaded before table content in markup order without "defer" attribute on the <code>&lt;script&gt;</code> element (is it possible to make set defer from withing the script itself?).</li>
+	<li>Cell attributes colspan and rowspan will likely cause incorrect sorting of adjacent columns</li>
+	<li>Column header scope attribute value of "row" is ignored</li>
+	<li>The script might fail to recognize dates or numeric data if formatted in unexpected ways (such as using different locales or including units)</li>
+	<li>Table footer rows will get sorted to top if they share parent with sorted rows</li>
+	<li>Sorting the index array could potentially be demanding on very large tables</li>
+	<li>Script doesnt remember user sort choices (could be saved in localstorage)</li>
+	<li>Incorrect sorting might occur if order of tables in the DOM changes after the script was loaded</li>
+</ol>
+<h2>Potential features:</h2>
+<ul>
+	<li>Identify a wider range of number formatting</li>
+	<li>Add a class or attribute to all cells of sorted column</li>
+	<li>Add a search filter</li>
+	<li>Remember user's sort choice (using localstorage)</li>
+	<li>Option to sort columns by row</li>
+	<li>scan for multi-digit numbers to make sorting of mixed data types more accurate</li>
+</ul>
+</body>
+</html>
